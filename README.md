@@ -23,6 +23,29 @@ REST API for DukaanX, a store, inventory, sales, and ledger management system.
 The API listens on port 5000 by default. `GET /health` checks the HTTP process;
 server startup also checks the MySQL connection.
 
+## Render production configuration
+
+Render must connect to a reachable hosted MySQL database. Add these environment
+variables to the Render web service, replacing placeholders with values supplied
+by your database provider:
+
+```text
+NODE_ENV=production
+DB_HOST=<HOSTED_MYSQL_HOST>
+DB_PORT=3306
+DB_USER=<HOSTED_MYSQL_USER>
+DB_PASSWORD=<HOSTED_MYSQL_PASSWORD>
+DB_NAME=<HOSTED_MYSQL_DATABASE>
+JWT_SECRET=<LONG_RANDOM_PRODUCTION_SECRET>
+JWT_EXPIRES_IN=7d
+```
+
+Do not set `DB_HOST=localhost` on Render; that refers to the Render instance,
+not a local computer or hosted database. Do not put database credentials in
+source code or commit `.env`. Render provides the `PORT` value at runtime, and
+the service must use `npm start`. After configuring the database variables, run
+`npm run migrate` from the Render Shell to create/update the schema.
+
 ## Store authorization
 
 Register or log in to receive a JWT. Store management endpoints need

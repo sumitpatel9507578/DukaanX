@@ -2,11 +2,18 @@ const mysql = require('mysql2/promise');
 
 let pool;
 
+function getConnectionTarget() {
+  return {
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT || 3306),
+  };
+}
+
 function getPool() {
   if (!pool) {
+    const target = getConnectionTarget();
     pool = mysql.createPool({
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT || 3306),
+      ...target,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
@@ -40,4 +47,4 @@ async function transaction(work) {
   }
 }
 
-module.exports = { getPool, query, transaction };
+module.exports = { getPool, getConnectionTarget, query, transaction };
