@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS products (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  store_id BIGINT UNSIGNED NOT NULL,
+  category_id BIGINT UNSIGNED NULL,
+  name VARCHAR(180) NOT NULL,
+  brand VARCHAR(120) NULL,
+  barcode VARCHAR(100) NULL,
+  sku VARCHAR(100) NULL,
+  unit VARCHAR(32) NOT NULL DEFAULT 'piece',
+  purchase_price DECIMAL(14,2) NOT NULL DEFAULT 0,
+  selling_price DECIMAL(14,2) NOT NULL DEFAULT 0,
+  minimum_stock DECIMAL(14,3) NOT NULL DEFAULT 0,
+  image VARCHAR(1000) NULL,
+  description TEXT NULL,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_products_store FOREIGN KEY (store_id) REFERENCES stores(id),
+  CONSTRAINT fk_products_category FOREIGN KEY (category_id) REFERENCES categories(id),
+  UNIQUE KEY uq_products_barcode (store_id, barcode),
+  UNIQUE KEY uq_products_sku (store_id, sku),
+  INDEX idx_products_store_name (store_id, name)
+) ENGINE=InnoDB;

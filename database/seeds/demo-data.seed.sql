@@ -1,0 +1,2 @@
+-- Demo data is intentionally not seeded: user, store, and ledger records should
+-- be created through the authenticated application or a local test fixture.
