@@ -24,6 +24,6 @@ async function start() {
 }
 
 start().catch((error) => {
-  console.error('Failed to start DukaanX API:', error.message);
+  console.error('Failed to start DukaanX API:', error);
   process.exitCode = 1;
 });
